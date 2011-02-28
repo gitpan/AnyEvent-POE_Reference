@@ -9,7 +9,7 @@ use AnyEvent::Handle;
 
 use Carp;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 sub FREEZE ()	{ 0 }
 sub THAW ()	{ 1 }
@@ -148,7 +148,8 @@ sub new
 				$serializer, $compress);
 		    }
 
-		    if (my $ref = eval {
+		    # FreezeThaw returns in list context...
+		    if (my($ref) = eval {
 			$serializer->[AnyEvent::POE_Reference::THAW]->(
 			    substr($buf, length($1) + 1)) })
 		    {
